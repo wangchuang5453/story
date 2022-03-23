@@ -18,18 +18,23 @@
           </div>
           <div class="answer">
             <div class="answer-item" v-for="(itm, idx) in item.choices" :key="idx">
-              <div class="icon" @click="select">
+              <div class="icon" :class="{selected: selected == idx}" @click="select(idx,itm)">
                 <div class="icon-circle">
                   <div class="icon-text">{{itm.left}}</div>
                 </div>
               </div>
-              <div class="item-text" @click="select">{{itm.right}}</div>
+              <div class="item-text" :class="{selected: selected == idx}" @click="select(idx, itm)">{{itm.right}}</div>
             </div>
           </div>
         </div>
       </div>
       <div class="next">
-        <div class="button"><span>下一题</span></div>
+        <div class="button" v-if="currentQtIndex == allQtData.length - 1" @click="submit">
+          <span >交卷</span>
+        </div>
+        <div v-else class="button" @click="nextQt">
+          <span>下一题</span>
+        </div>
       </div>
     </div>
   </div>
@@ -47,14 +52,23 @@ export default {
   data() {
     return {
       questionData: [],
+      selected: -1,
+      allSelected: [],
+      allQtData: [],
+      currentQtIndex: 0,
     }
   },
   methods: {
     async getData() {
       const res = await getJSON()
       console.log(res, '===== init')
-      // const { tests } = res || {};
-      this.questionData = [
+      const { tests = [] } = res || {};
+      // this.allQtData = tests;
+      this.setQtData();
+    },
+    setQtData() {
+      // this.allQtData[this.currentQtIndex]
+      this.allQtData = this.questionData = [
         {
           "step": 0,
           "question": "7、你在不知名网站上，通过游戏大转盘，中了大奖：可以免费获得电脑、手机等高价商品。不过你得先填写个人信息，且预先自付邮费。这时，你应该：",
@@ -70,8 +84,17 @@ export default {
         },
       ]
     },
-    select() {
-
+    select(index, selectedData) {
+      this.selected = index;
+      const { left } = selectedData;
+      this.allSelected[this.currentQtIndex] = left;
+    },
+    nextQt() {
+      this.currentQtIndex = this.currentQtIndex + 1;
+      this.setQtData();
+    },
+    submit() {
+      // 
     }
   }
 }
@@ -130,6 +153,11 @@ export default {
             float: left;
             width: 29px;
             height: 29px;
+            &.selected {
+              .icon-circle {
+                background: #53B260;
+              }
+            }
             .icon-circle {
               width: 100%;
               padding-bottom: 100%;
@@ -150,6 +178,9 @@ export default {
             }
           }
           .item-text {
+            &.selected {
+              color: #53B260;
+            }
             margin-left: 40px;
             font-family: PingFangSC-Medium;
             font-size: 24px;
