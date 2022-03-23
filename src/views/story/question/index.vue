@@ -1,38 +1,42 @@
 <template>
   <div class="bg-wrapper">
     <img class="bg" src="@/assets/images/story/question@1x.jpg" alt="">
+    <div class="shanshan-progress">
+      <Progress :percentage="percentage"></Progress>
+    </div>
     <div class="question-wrapper">
-      <div class="title">食品安全</div>
+      <div class="title">
+        <img class="title-icon" src="@/assets/images/story/b.svg" alt="">
+        <span class="title-text">{{questionData.category}}</span>
+        <img class="title-icon" src="@/assets/images/story/a.svg" alt="">
+      </div>
       <Spacer :height="22"/>
       <div class="main">
-        <div v-for="(item, index) in questionData" :key="index">
-          <div class="question">
-            <div class="text">
-              {{item.question}}
-            </div>
-            <div class="img">
-              <img src="@/assets/images/story/testImg.jpeg" alt="">
-              <!-- <van-image src="~@/assets/images/story/testImg.jpeg" /> -->
-            </div>
-            <Spacer :height="33"/>
+        <div class="question">
+          <div class="text">
+            {{questionData.step}}、{{questionData.question}}
           </div>
-          <div class="answer">
-            <div class="answer-item" v-for="(itm, idx) in item.choices" :key="idx">
-              <div class="icon" :class="{selected: selected == idx}" @click="select(idx,itm)">
-                <div class="icon-circle">
-                  <div class="icon-text">{{itm.left}}</div>
-                </div>
+          <div class="img">
+            <img :src="questionData.mediaUrl" alt="">
+          </div>
+          <Spacer :height="33"/>
+        </div>
+        <div class="answer">
+          <div class="answer-item" v-for="(itm, idx) in questionData.choices" :key="itm.step">
+            <div class="icon" :class="{selected: selected == idx}" @click="select(idx,itm, questionData.answers)">
+              <div class="icon-circle">
+                <div class="icon-text">{{itm.left}}</div>
               </div>
-              <div class="item-text" :class="{selected: selected == idx}" @click="select(idx, itm)">{{itm.right}}</div>
             </div>
+            <div class="item-text" :class="{selected: selected == idx}" @click="select(idx, itm, questionData.answers)">{{itm.right}}</div>
           </div>
         </div>
       </div>
       <div class="next">
-        <div class="button" v-if="currentQtIndex == allQtData.length - 1" @click="submit">
+        <div class="button" :class="{ noSelect: !allSelected[currentQtIndex] }" v-if="currentQtIndex == allQtData.length - 1" @click="submit(!allSelected[currentQtIndex])">
           <span >交卷</span>
         </div>
-        <div v-else class="button" @click="nextQt">
+        <div v-else class="button" :class="{ noSelect: !allSelected[currentQtIndex] }" @click="nextQt(!allSelected[currentQtIndex])">
           <span>下一题</span>
         </div>
       </div>
@@ -41,6 +45,7 @@
 </template>
 <script>
 import Spacer from '_c/spacer/index.vue';
+import Progress from '_c/progress/Progress.vue';
 import { getJSON, getAccessToken } from '@/api/user.js'
 export default {
   created() {
@@ -48,14 +53,19 @@ export default {
   },
   components: {
     Spacer,
+    Progress,
   },
   data() {
     return {
       questionData: [],
       selected: -1,
       allSelected: [],
+      allAnswerState: [],
+      rightAnswerNumber: 0,
       allQtData: [],
       currentQtIndex: 0,
+      percentage: 0,
+      unit: 10,
     }
   },
   methods: {
@@ -63,38 +73,41 @@ export default {
       const res = await getJSON()
       console.log(res, '===== init')
       const { tests = [] } = res || {};
-      // this.allQtData = tests;
+      this.allQtData = tests;
       this.setQtData();
+      const len = this.allQtData.length;
+      this.unit = Math.ceil(100 / len);
     },
     setQtData() {
-      // this.allQtData[this.currentQtIndex]
-      this.allQtData = this.questionData = [
-        {
-          "step": 0,
-          "question": "7、你在不知名网站上，通过游戏大转盘，中了大奖：可以免费获得电脑、手机等高价商品。不过你得先填写个人信息，且预先自付邮费。这时，你应该：",
-          "mediaUrl": "",
-          "mediaType": "image",
-          "choices":[
-            { left: 'A', right: '为了获得数码产品，瞒住父母，填写信息，并支付自己的零用钱。'},
-            { left: 'B', right: '把情况报告给长辈，让他们评判是否真实'},
-            { left: 'C', right: '通过客服询问具体情况，并留下联系方式，便于联络。' }
-          ],
-          "choiceType": "single",
-          "answers": 0
-        },
-      ]
+      this.questionData = this.allQtData[this.currentQtIndex]
     },
-    select(index, selectedData) {
+    select(index, selectedData, rightAnswer) {
       this.selected = index;
       const { left } = selectedData;
       this.allSelected[this.currentQtIndex] = left;
+      this.allAnswerState[this.currentQtIndex] = (left == rightAnswer);
+      console.log(this.allAnswerState, '======');
     },
-    nextQt() {
+    nextQt(noSelect) {
+      if (noSelect) {
+        return;
+      }
       this.currentQtIndex = this.currentQtIndex + 1;
       this.setQtData();
+      this.selected = -1;
+      this.percentage = this.percentage + this.unit;
     },
-    submit() {
-      // 
+    submit(noSelect) {
+      if (noSelect) {
+        return;
+      }
+      // TODO:
+      const code = this.getCode(this.allAnswerState);
+      this.$router.replace({ name: 'complete', query: { code } });
+    },
+    getCode(answerStateArray) {
+      let code = '0000';
+      return code;
     }
   }
 }
@@ -105,6 +118,22 @@ export default {
   .bg {
     width: 750px;
   }
+  .shanshan-progress {
+    position: absolute;
+    top: 322px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+    // margin-top: 50px;
+    padding-top: 92px;
+    width: 700px;
+    height: 175px;
+    // height: 83px;
+    background-color: rgba(255, 255, 255, 0.56);
+    border-radius: 35px;
+    display: flex;
+    justify-content: center;
+  }
   .question-wrapper {
     position: absolute;
     top: 514px;
@@ -113,8 +142,10 @@ export default {
     box-sizing: border-box;
     width: 700px;
     padding: 35px 53px;
+    background: #FFFFFF;
+    border-radius: 35px;
     .title {
-      width: 422px;
+      // width: 422px;
       height: 40px;
       font-family: PingFangSC-Medium;
       font-size: 40px;
@@ -122,6 +153,13 @@ export default {
       text-align: center;
       line-height: 40px;
       font-weight: 500;
+      .title-icon {
+        width: 34px;
+        height: 26px;
+      }
+      .title-text {
+        margin: 0 23px;
+      }
     }
     .main {
       .question {
@@ -195,7 +233,7 @@ export default {
       .button {
         width: 570px;
         height: 104px;
-        background-image: linear-gradient(244deg, #FF8C4F 1%, #FFB57E 83%);
+        background: linear-gradient(244deg, #FF8C4F 1%, #FFB57E 83%);
         border-radius: 52px;
         display: flex;
         justify-content: center;
@@ -205,6 +243,9 @@ export default {
         color: #FFFFFF;
         text-align: center;
         font-weight: 500;
+        &.noSelect {
+          background: #848484;
+        }
       }
     }
   }

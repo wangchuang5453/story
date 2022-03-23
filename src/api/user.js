@@ -111,7 +111,7 @@ export const getPhoneNumber = (openId) => {
  */
 export const getJSON = () => {
   return request({
-    url: `https://v1.cunzhangjianggushi.com/activity/1001.json`,
+    url: `https://v1.cunzhangjianggushi.com/activity/220328.json`,
     method: 'get'
   })
 }

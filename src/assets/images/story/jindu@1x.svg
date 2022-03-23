@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="171px" height="65px" viewBox="0 0 171 65" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>jindu_1@1x</title>
+    <defs>
+        <linearGradient x1="87.3231908%" y1="44.9539595%" x2="13.8939145%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#FF8C4F" offset="0%"></stop>
+            <stop stop-color="#FFB57E" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="切图" transform="translate(-491.000000, -1166.000000)" fill="url(#linearGradient-1)">
+            <path d="M514,1166 L639,1166 C651.702549,1166 662,1176.29745 662,1189 C662,1201.70255 651.702549,1212 639,1212 L594,1212 L594,1212 L577.286458,1231 L558.53125,1212 L514,1212 C501.297451,1212 491,1201.70255 491,1189 C491,1176.29745 501.297451,1166 514,1166 Z" id="jindu_1"></path>
+        </g>
+    </g>
+</svg>

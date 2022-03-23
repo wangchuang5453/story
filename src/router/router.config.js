@@ -5,6 +5,7 @@
 // const auth = () => import('@/views/auth/index');
 const home = () => import('@/views/story/home/index.vue');
 const question = () => import('@/views/story/question/index.vue');
+const complete = () => import('@/views/story/complete/index.vue');
 
 export const constantRouterMap = [
   {
@@ -28,12 +29,12 @@ export const constantRouterMap = [
     component: question,
     meta: { title: '测试题', keepAlive: false}
   },
-  // {
-  //   path: '/home',
-  //   name: 'Home',
-  //   component: () => import('@/views/home/index'),
-  //   meta: { title: '首页', keepAlive: false }
-  // },
+  {
+    path: '/complete',
+    name: 'complete',
+    component: complete,
+    meta: { title: '完成', keepAlive: false }
+  },
   // {
   //   path: '/orderConfirm',
   //   name: 'orderConfirm',
