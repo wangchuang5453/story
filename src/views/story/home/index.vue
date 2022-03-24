@@ -6,7 +6,7 @@
         <van-checkbox v-model="checked" shape="square">已完整阅读测试须知</van-checkbox>
       </div>
       <div class="start-button" @click="startTest">
-        <div>马上开始</div>
+        <span>马上开始</span>
       </div>
     </div>
     <div class="mask" v-if="showMask">
@@ -66,9 +66,19 @@ export default {
     .start-button {
       width: 570px;
       height: 104px;
+      background: linear-gradient(244deg, #FF8C4F 1%, #FFB57E 83%);
+      border-radius: 52px;
       display: flex;
       justify-content: center;
       align-items: center;
+      font-family: PingFangSC-Medium;
+      font-size: 40px;
+      color: #FFFFFF;
+      text-align: center;
+      font-weight: 500;
+      &.noSelect {
+        background: #848484;
+      }
     }
   }
   .mask {
