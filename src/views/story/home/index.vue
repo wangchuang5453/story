@@ -3,7 +3,11 @@
     <img class="bg" src="@/assets/images/story/testNotes.jpg" alt="">
     <div class="bottom">
       <div class="read">
-        <van-checkbox v-model="checked" shape="square">已完整阅读测试须知</van-checkbox>
+        <div class="check" @click="changeCheckedState">
+          <img class="check-empty" v-if="!checked"  src="@/assets/images/story/r_01@1x.svg" alt="">
+          <img class="checked" v-else src="@/assets/images/story/t_01@1x.svg" alt="">
+        </div>
+        <div class="read-text">已完整阅读测试须知</div>
       </div>
       <div class="start-button" @click="startTest">
         <span>马上开始</span>
@@ -11,9 +15,13 @@
     </div>
     <div class="mask" v-if="showMask">
       <div class="circle-bg">
-        <div>{{number}}</div>
+        <div class="circle-number">
+          <!-- {{number}} -->
+          <img class="circle-img" v-if="number == 3" src="@/assets/images/story/3@1x.svg" alt="">
+          <img class="circle-img" v-else-if="number == 2" src="@/assets/images/story/2@1x.svg" alt="">
+          <img class="circle-img" v-else-if="number == 1" src="@/assets/images/story/1@1x.svg" alt="">
+        </div>
       </div>
-      <!-- <img  src="@/assets/images/story/yuanxing@1x.svg" alt=""> -->
     </div>
   </div>
 </template>
@@ -29,6 +37,9 @@ export default {
   },
   methods: {
     startTest() {
+      if (!this.checked) {
+        return;
+      }
       this.showMask = true;
       document.documentElement.style.overflow = 'hidden';
       this.countDown();
@@ -45,6 +56,9 @@ export default {
         this.countDown();
         this.number--;
       }, 1000)
+    },
+    changeCheckedState() {
+      this.checked = !this.checked;
     }
   }
 }
@@ -61,7 +75,30 @@ export default {
     left: 50%;
     transform: translateX(-50%);
     .read {
-
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 22px;
+      .check {
+        width: 31px;
+        height: 31px;
+        font-size: 0;
+        margin-right: 9px;
+        .check-empty {
+          width: 100%;
+          height: 100%;
+        }
+        .checked {
+          .check-empty;
+        }
+      }
+      .read-text {
+        font-family: PingFangSC-Medium;
+        font-size: 28px;
+        color: #929292;
+        text-align: center;
+        font-weight: 500;
+      }
     }
     .start-button {
       width: 570px;
@@ -99,6 +136,12 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      .circle-number {
+        .circle-img {
+          width: 123px;
+          height: 177px;
+        }
+      }
     }
   }
 }
