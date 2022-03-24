@@ -46,7 +46,7 @@
 <script>
 import Spacer from '_c/spacer/index.vue';
 import Progress from '_c/progress/Progress.vue';
-import { getJSON, getAccessToken } from '@/api/user.js'
+import { getJSON } from '@/api/user.js'
 export default {
   created() {
     this.getData();
@@ -106,6 +106,7 @@ export default {
       this.$router.replace({ name: 'complete', query: { code } });
     },
     getCode(answerStateArray) {
+      console.log(answerStateArray);
       let code = '0000';
       return code;
     }

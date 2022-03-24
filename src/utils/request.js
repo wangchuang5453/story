@@ -24,7 +24,7 @@ service.interceptors.request.use(
     if (store.getters.token) {
       config.headers['X-Token'] = store.getters.token || ''
     }
-    console.log('-0-0--', config)
+    // console.log('-0-0--', config)
     return config
   },
   error => {
@@ -38,7 +38,6 @@ service.interceptors.response.use(
   response => {
     Toast.clear()
     const res = response.data
-    // console.log(res, '===== interceptors.response res')
     // if (res.code != undefined && res.code !== 200) {
     //   return Promise.reject(res || 'error')
     // } else if (res.code == 200) {

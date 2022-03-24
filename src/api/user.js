@@ -123,3 +123,10 @@ export const getAccessToken = () => {
     method: 'get'
   })
 }
+
+export const getWinxinConfig = () => {
+  return request({
+    url: `/wx/wxapi/`,
+    method: 'get'
+  })
+}
