@@ -109,9 +109,9 @@ export const getPhoneNumber = (openId) => {
  * @param {*} openId 
  * @returns 
  */
-export const getJSON = () => {
+export const getJSON = (id) => {
   return request({
-    url: `https://v1.cunzhangjianggushi.com/activity/220328.json`,
+    url: `https://v1.cunzhangjianggushi.com/activity/${id}.json`,
     method: 'get'
   })
 }
@@ -123,10 +123,10 @@ export const getAccessToken = () => {
     method: 'get'
   })
 }
-
-export const getWinxinConfig = () => {
+// https://wx.cunzhangjianggushi.com/wx/wxapi?url=http://www.sina.com.cn
+export const getWinxinConfig = (url) => {
   return request({
-    url: `/wx/wxapi/`,
+    url: `https://wx.cunzhangjianggushi.com/wx/wxapi?url=${url}`,
     method: 'get'
   })
 }

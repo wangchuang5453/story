@@ -56,13 +56,12 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    proxy: {
-      //配置跨域
-      '/': {
-          target: "https://wx.cunzhangjianggushi.com",
-          secure: false,
-          changOrigin: true,
-      }
+    // proxy: {
+    //   '/': {
+    //       target: "https://wx.cunzhangjianggushi.com",
+    //       secure: false,
+    //       changOrigin: true,
+    //   }
     }
   },
   css: {

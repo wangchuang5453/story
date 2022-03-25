@@ -16,7 +16,6 @@
     <div class="mask" v-if="showMask">
       <div class="circle-bg">
         <div class="circle-number">
-          <!-- {{number}} -->
           <img class="circle-img" v-if="number == 3" src="@/assets/images/story/3@1x.svg" alt="">
           <img class="circle-img" v-else-if="number == 2" src="@/assets/images/story/2@1x.svg" alt="">
           <img class="circle-img" v-else-if="number == 1" src="@/assets/images/story/1@1x.svg" alt="">
@@ -26,6 +25,8 @@
   </div>
 </template>
 <script>
+import { getCookie } from '@/utils/story.js';
+import { CookieKey } from '../common/index.js';
 export default {
   data() {
     return {
@@ -40,9 +41,14 @@ export default {
       if (!this.checked) {
         return;
       }
-      this.showMask = true;
-      document.documentElement.style.overflow = 'hidden';
-      this.countDown();
+      const value = getCookie(CookieKey);
+      if (value) {
+        this.$router.replace({ name: 'complete' });
+      } else {
+        this.showMask = true;
+        document.documentElement.style.overflow = 'hidden';
+        this.countDown();
+      }
     },
     countDown() {
       this.timer = setTimeout(() => {
