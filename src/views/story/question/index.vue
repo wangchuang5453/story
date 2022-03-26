@@ -46,7 +46,7 @@
 <script>
 import Spacer from '_c/spacer/index.vue';
 import Progress from '_c/progress/Progress.vue';
-import { getJSON } from '@/api/user.js';
+import { getQuestionData } from '@/api/user.js';
 import { CookieKey } from '../common/index.js';
 import mixin from '../common/mixin.js';
 export default {
@@ -75,7 +75,7 @@ export default {
   methods: {
     async initPageData() {
       try {
-        const res = await getJSON('220328');
+        const res = await getQuestionData('220328');
         console.log(res, '===== init')
         const { tests = [], stars: { codes = [] } = {} } = res || {};
         this.startsToCode = codes;

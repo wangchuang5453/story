@@ -104,26 +104,25 @@ export const getPhoneNumber = (openId) => {
   })
 }
 
-/**
- * 
- * @param {*} openId 
- * @returns 
- */
-export const getJSON = (id) => {
-  return request({
-    url: `https://v1.cunzhangjianggushi.com/activity/${id}.json`,
-    method: 'get'
-  })
-}
-
-
 export const getAccessToken = () => {
   return request({
     url: `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx04c02eacb0082991&secret=0b01977e34a4bb686595438a4f8b6436`,
     method: 'get'
   })
 }
-// https://wx.cunzhangjianggushi.com/wx/wxapi?url=http://www.sina.com.cn
+
+/**
+ * 
+ * @param {*} id
+ * @returns 
+ */
+ export const getQuestionData = (id) => {
+  return request({
+    url: `https://wx.cunzhangjianggushi.com/wx/getjson?id=${id}`,
+    method: 'get'
+  })
+}
+
 export const getWinxinConfig = (url) => {
   return request({
     url: `https://wx.cunzhangjianggushi.com/wx/wxapi?url=${url}`,
