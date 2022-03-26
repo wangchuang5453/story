@@ -56,14 +56,13 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    proxy: {
-      //配置跨域
-      '/': {
-          target: "https://wx.cunzhangjianggushi.com",
-          secure: false,
-          changOrigin: true,
-      }
-    }
+    // proxy: {
+    //   '/': {
+    //       target: "https://wx.cunzhangjianggushi.com",
+    //       secure: false,
+    //       changOrigin: true,
+    //   }
+    // }
   },
   css: {
     extract: IS_PROD, // 是否将组件中的 CSS 提取至一个独立的 CSS 文件中 (而不是动态注入到 JavaScript 中的 inline 代码)。

@@ -6,14 +6,23 @@
 const home = () => import('@/views/story/home/index.vue');
 const question = () => import('@/views/story/question/index.vue');
 const complete = () => import('@/views/story/complete/index.vue');
+const index = () => import('@/views/story/index/index.vue');
 
 export const constantRouterMap = [
   {
     path: '/',
-    // component: () => import('@/views/layouts/index'),
-    redirect: '/home',
+    redirect: '/index',
     meta: {
       title: '首页',
+      keepAlive: false
+    }
+  },
+  {
+    path: '/index',
+    name:'index',
+    component: index,
+    meta: {
+      title: '主页',
       keepAlive: false
     }
   },

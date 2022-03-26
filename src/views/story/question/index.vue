@@ -46,10 +46,11 @@
 <script>
 import Spacer from '_c/spacer/index.vue';
 import Progress from '_c/progress/Progress.vue';
-import { getJSON } from '@/api/user.js'
+import { getJSON } from '@/api/user.js';
+import { CookieKey } from '../common/index.js';
 export default {
   created() {
-    this.getData();
+    this.initPageData();
   },
   components: {
     Spacer,
@@ -66,17 +67,22 @@ export default {
       currentQtIndex: 0,
       percentage: 0,
       unit: 10,
+      startsToCode: [],
     }
   },
   methods: {
-    async getData() {
-      const res = await getJSON()
-      console.log(res, '===== init')
-      const { tests = [] } = res || {};
-      this.allQtData = tests;
-      this.setQtData();
-      const len = this.allQtData.length;
-      this.unit = Math.ceil(100 / len);
+    async initPageData() {
+      try {
+        const res = await getJSON('220328');
+        const { tests = [], stars: { codes = [] } = {} } = res || {};
+        this.startsToCode = codes;
+        this.allQtData = tests;
+        this.setQtData();
+        const len = this.allQtData.length;
+        this.unit = Math.ceil(100 / len);
+      } catch (error) {
+        // 
+      }
     },
     setQtData() {
       this.questionData = this.allQtData[this.currentQtIndex]
@@ -86,7 +92,6 @@ export default {
       const { left } = selectedData;
       this.allSelected[this.currentQtIndex] = left;
       this.allAnswerState[this.currentQtIndex] = (left == rightAnswer);
-      console.log(this.allAnswerState, '======');
     },
     nextQt(noSelect) {
       if (noSelect) {
@@ -101,15 +106,37 @@ export default {
       if (noSelect) {
         return;
       }
-      // TODO:
       const code = this.getCode(this.allAnswerState);
-      this.$router.replace({ name: 'complete', query: { code } });
+      this.storeInCookie(code);
+      this.$router.replace({ name: 'complete'});
     },
-    getCode(answerStateArray) {
-      console.log(answerStateArray);
-      let code = '0000';
+    getCode(answerStateArray = []) {
+      const rightCount = answerStateArray.filter((item) => item === true).length;
+      const code = this.getCodeByRight(rightCount);
       return code;
-    }
+    },
+    getCodeByRight(rightCount = 0) {
+      let res = '';
+      this.startsToCode && this.startsToCode.forEach((item) => {
+        const arr = item.split('-');
+        const min = arr[0];
+        const max = arr[1];
+        const code = arr[2];
+        if (rightCount <= max && rightCount >= min) {
+          res = code;
+        }
+      })
+      return res;
+    },
+    storeInCookie(value) {
+      this.setCookie(CookieKey, value);
+    },
+    setCookie(name,value) {
+      let Days = 30;
+      let exp = new Date();
+      exp.setTime(exp.getTime() + Days*24*60*60*1000);
+      document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+    },
   }
 }
 </script>
