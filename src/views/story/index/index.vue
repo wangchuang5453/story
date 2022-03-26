@@ -4,11 +4,10 @@
 <script>
 import mixin from '../common/mixin.js'; 
 import { getCookie, setCookie } from '@/utils/story.js';
-import { CookieKey, LocalKey } from '../common/index.js';
+import { CookieKey } from '../common/index.js';
 export default {
   mixins: [mixin],
   created() {
-    // setCookie(CookieKey, '')
     const value = getCookie(CookieKey);
     if (value) {
       this.$router.replace({ name: 'complete' });

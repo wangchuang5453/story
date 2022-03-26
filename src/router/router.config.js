@@ -2,6 +2,7 @@ const home = () => import('@/views/story/home/index.vue');
 const question = () => import('@/views/story/question/index.vue');
 const complete = () => import('@/views/story/complete/index.vue');
 const index = () => import('@/views/story/index/index.vue');
+const clear = () => import('@/views/story/clear/index.vue');
 
 export const constantRouterMap = [
   {
@@ -52,6 +53,15 @@ export const constantRouterMap = [
       title: '完成',
       keepAlive: false,
       previous: ['question', 'home', 'index']
+    }
+  },
+  {
+    path: '/clear',
+    name: 'clear',
+    component: clear,
+    meta: {
+      title: 'clear',
+      keepAlive: false,
     }
   }
 ]
