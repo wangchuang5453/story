@@ -18,6 +18,7 @@ service.interceptors.request.use(
     config.headers['X-UBT-AppId'] = constant.appId
     config.headers['X-UBT-DeviceId'] = constant.deviceId
     config.headers['X-UBT-Sign'] = getSign()
+    config.headers['Cache-Control'] = 'no-store';
     return config
   },
   error => {

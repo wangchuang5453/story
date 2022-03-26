@@ -11,7 +11,9 @@
 <script>
 import { CookieKey } from '../common/index.js';
 import { getCookie } from '@/utils/story.js';
+import mixin from '../common/mixin.js';
 export default {
+  mixins: [mixin],
   created() {
     this.code = this.getCode();
     this.codeArray = this.code.split('');
@@ -28,7 +30,7 @@ export default {
       if (value) {
         return value;
       } else {
-        return '';
+        this.$router.replace({ name: 'home' });
       }
     },
   }

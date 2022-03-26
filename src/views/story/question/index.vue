@@ -48,7 +48,9 @@ import Spacer from '_c/spacer/index.vue';
 import Progress from '_c/progress/Progress.vue';
 import { getJSON } from '@/api/user.js';
 import { CookieKey } from '../common/index.js';
+import mixin from '../common/mixin.js';
 export default {
+  mixins: [mixin],
   created() {
     this.initPageData();
   },
@@ -74,6 +76,7 @@ export default {
     async initPageData() {
       try {
         const res = await getJSON('220328');
+        console.log(res, '===== init')
         const { tests = [], stars: { codes = [] } = {} } = res || {};
         this.startsToCode = codes;
         this.allQtData = tests;
@@ -129,7 +132,7 @@ export default {
       return res;
     },
     storeInCookie(value) {
-      this.setCookie(CookieKey, value);
+      this.setCookie(CookieKey, value); 
     },
     setCookie(name,value) {
       let Days = 30;
@@ -198,6 +201,7 @@ export default {
           line-height: 38px;
           font-weight: 500;
           height: 152px;
+          min-height: 152px;
         }
         .img {
           display: flex;

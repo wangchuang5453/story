@@ -27,7 +27,9 @@
 <script>
 import { getCookie } from '@/utils/story.js';
 import { CookieKey } from '../common/index.js';
+import mixin from '../common/mixin.js';
 export default {
+  mixins: [mixin],
   data() {
     return {
       checked: false,
@@ -41,8 +43,7 @@ export default {
       if (!this.checked) {
         return;
       }
-      // TODO: 上线前修改
-      const value = false;//getCookie(CookieKey);
+      const value = getCookie(CookieKey);
       if (value) {
         this.$router.replace({ name: 'complete' });
       } else {
