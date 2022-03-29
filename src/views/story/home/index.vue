@@ -43,7 +43,8 @@ export default {
       if (!this.checked) {
         return;
       }
-      const value = getCookie(CookieKey);
+      // 最终修改处
+      const value = false;//getCookie(CookieKey);
       if (value) {
         this.$router.replace({ name: 'complete' });
       } else {
