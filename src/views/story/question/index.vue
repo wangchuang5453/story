@@ -13,8 +13,10 @@
       <Spacer :height="22"/>
       <div class="main">
         <div class="question">
-          <div class="text">
-            {{questionData.step}}、{{questionData.question}}<span class="tip">（点击文字选项进行选择）</span>
+          <!-- 加key规避iphone12诡异的数据残留问题 -->
+          <div class="text" :key="questionData.step">
+            {{questionData.step}}、{{questionData.question}}
+            <span class="tip">（点击文字选项进行选择）</span>
           </div>
           <div class="img">
             <img :src="questionData.mediaUrl" alt="">
@@ -90,6 +92,7 @@ export default {
       }
     },
     setQtData() {
+      this.questionData = [];
       this.questionData = this.allQtData[this.currentQtIndex]
     },
     select(index, selectedData, rightAnswer) {
@@ -180,7 +183,7 @@ export default {
     .title {
       // width: 422px;
       height: 40px;
-      font-family: PingFangSC-Medium;
+      // font-family: PingFangSC-Medium;
       font-size: 40px;
       color: #F5623F;
       text-align: center;
@@ -197,13 +200,12 @@ export default {
     .main {
       .question {
         .text {
-          font-family: PingFangSC-Medium;
+          // font-family: PingFangSC-Medium;
           font-size: 28px;
           color: #F57900;
           line-height: 38px;
           font-weight: 500;
-          height: 152px;
-          min-height: 152px;
+          min-height: 160px;
           .tip {
             color: #363636;
           }
@@ -245,7 +247,7 @@ export default {
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                font-family: PingFangSC-Medium;
+                // font-family: PingFangSC-Medium;
                 font-size: 24px;
                 color: #FFFFFF;
                 font-weight: 500;
@@ -257,7 +259,7 @@ export default {
               color: #53B260;
             }
             margin-left: 40px;
-            font-family: PingFangSC-Medium;
+            // font-family: PingFangSC-Medium;
             font-size: 24px;
             color: #363636;
             line-height: 34px;
@@ -275,7 +277,7 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        font-family: PingFangSC-Medium;
+        // font-family: PingFangSC-Medium;
         font-size: 40px;
         color: #FFFFFF;
         text-align: center;
