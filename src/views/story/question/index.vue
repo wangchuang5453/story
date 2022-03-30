@@ -14,7 +14,7 @@
       <div class="main">
         <div class="question">
           <div class="text">
-            {{questionData.step}}、{{questionData.question}}
+            {{questionData.step}}、{{questionData.question}}<span class="tip">（点击文字选项进行选择）</span>
           </div>
           <div class="img">
             <img :src="questionData.mediaUrl" alt="">
@@ -28,7 +28,9 @@
                 <div class="icon-text">{{itm.left}}</div>
               </div>
             </div>
-            <div class="item-text" :class="{selected: selected == idx}" @click="select(idx, itm, questionData.answers)">{{itm.right}}</div>
+            <div class="item-text" :class="{selected: selected == idx}" @click="select(idx, itm, questionData.answers)">
+              {{itm.right}}
+            </div>
           </div>
         </div>
       </div>
@@ -202,6 +204,9 @@ export default {
           font-weight: 500;
           height: 152px;
           min-height: 152px;
+          .tip {
+            color: #363636;
+          }
         }
         .img {
           display: flex;

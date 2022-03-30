@@ -35,7 +35,7 @@ export default {
       window.wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
         window.wx.checkJsApi({
           jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
-          success: function(res) {
+          success: function() {
             const { desc, title, iconUrl } = weixinConfig || {};
             window.wx.updateAppMessageShareData({
               title, // 分享标题
